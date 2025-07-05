@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="./src/tailwind/output.css">
+</head>
+
+<body class="bg-gray-100 select-none" style="-webkit-app-region: drag;">
+    <nav class="bg-white border-gray-200 dark:bg-purple-900 mb-10">
+        <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl p-4">
+            <a href="https://flowbite.com" class="flex items-center space-x-3 rtl:space-x-reverse">
+                <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">RSUD ALOEI
+                    SABOE</span>
+            </a>
+            <div class="flex items-center space-x-6 rtl:space-x-reverse">
+                <button class="bg-orange-800 text-white py-2 px-4 rounded-lg font-semibold disabled:bg-gray-500 disabled:text-gray-600 disabled:cursor-not-allowed" disabled
+                    id="btn-reset">Reset</button>
+            </div>
+        </div>
+    </nav>
+
+    <div id="my-alert"
+        class="hidden items-center p-4 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800"
+        role="alert">
+        <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor" viewBox="0 0 20 20">
+            <path
+                d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+        </svg>
+        <span class="sr-only">Info</span>
+        <div></div>
+    </div>
+
+    <div class="flex justify-center">
+        <div class="">
+            <!-- <h1 class="text-center text-2xl font-semibold mb-2">Selamat bertugas, <span class="nama-petugas">Nama
+                    Petugas</span></h1> -->
+            <h1 class="text-center text-lg font-semibold mb-10"><span class="nama-loket">Nama Loket</span></h1>
+            <div
+                class="flex flex-col text-center mx-auto w-max bg-gray-200 rounded-xl px-10 py-5 shadow-lg border-t-4 border-t-purple-700 mb-5">
+                <h1 class="text-7xl text-purple-800 font-extrabold font-mono" id="nomor-antrian">0</h1>
+                <h1 class="text-xl text-purple-800 font-extrabold font-mono">Nomor Antrian Saat Ini</h1>
+            </div>
+            <div class="flex justify-between">
+                <button id="btn-call-again"
+                    class="bg-blue-400 border-2 px-8 py-2 rounded-md font-semibold border-b-2 border-b-blue-900 text-gray-900 active:bg-blue-700 active:text-white hover:text-white transition-all duration-75 ease-in disabled:bg-gray-500 disabled:text-gray-600 disabled:cursor-not-allowed disabled:border-b-0"
+                    disabled>Panggil
+                    lagi</button>
+                <button id="btn-next"
+                    class="bg-green-400 border-2 px-8 py-2 rounded-md font-semibold border-b-2 border-b-green-900 text-gray-900 active:bg-green-700 active:text-white hover:text-white transition-all duration-75 ease-in">Berikutnya</button>
+                <button id="btn-skip"
+                    class="bg-gray-400 border-2 px-8 py-2 rounded-md font-semibold border-b-2 border-b-gray-900 text-gray-900 active:bg-gray-700 active:text-white hover:text-white transition-all duration-75 ease-in disabled:bg-gray-500 disabled:text-gray-600 disabled:cursor-not-allowed disabled:border-b-0"
+                    disabled>Lewati</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid md:grid-cols-2 grid-cols-1 gap-4 mx-20 mt-10">
+        <div class="rounded-xl bg-gray-200 shadow-lg py-8 px-3 border-t-8 border-t-cyan-600">
+            <h1 class="font-semibold text-xl">Panggilan Manual</h1>
+
+            <form id="panggilan-manual">
+                <label for="number" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Nomor</label>
+                <div class="relative">
+                    <input type="number" name="nomor" min="1" id="number"
+                        class="block w-full p-4 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="Masukan nomor antrian..." required />
+                    <button type="submit"
+                        class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2">Panggil</button>
+                </div>
+            </form>
+
+        </div>
+
+        <div class="rounded-xl bg-gray-200 shadow-lg py-8 px-3 border-t-8 border-t-orange-700">
+            <div class="flex justify-between mb-4 items-center">
+                <h1 class="font-semibold text-xl">Antrian Yang Dilewati</h1>
+                <button id="clear-skipped-queue"
+                    class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2">Selesai</button>
+            </div>
+
+            <ul class="text-sm font-medium text-gray-900 border border-gray-200 rounded-lg space-y-2"
+                id="antrian-dilewati">
+            </ul>
+
+        </div>
+    </div>
+
+    <script src="../server/utils.js"></script>
+    <script src="./src/js/renderer.js"></script>
+</body>
+
+</html>

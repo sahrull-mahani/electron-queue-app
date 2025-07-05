@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self';">
+    <title>ANTRIAN</title>
+    <link href="./src/tailwind/output.css" rel="stylesheet">
+    <link rel="stylesheet" href="./src/css/animate.min.css">
+</head>
+
+<body class="bg-gradient-to-b from-purple-700 to-purple-800 h-screen pt-10 px-20 select-none">
+
+    <div
+        class="flex justify-between rounded-xl bg-gradient-to-l from-purple-500 via-purple-600 to-purple-700 w-full shadow-md px-3 py-5 mb-8">
+        <div class="flex flex-row space-x-5">
+            <img src="./assets/img/logo.png" alt="Logo RSUD" class="size-28">
+            <div>
+                <h2 class="uppercase font-bold text-3xl text-white mb-6">RSUD Aloei Saboe</h2>
+                <h2 class="font-semibold text-white">Jl Prof. Dr. Aloe Saboe, Gorontalo</h2>
+                <h2 class="font-semibold text-white">Telp. 081377783334</h2>
+            </div>
+        </div>
+
+        <div class="text-right">
+            <h2 class="font-extrabold text-4xl text-white mb-6" id="waktu-realtime">14.10.22</h2>
+            <h2 class="font-semibold text-2xl text-white mb-6" id="tanggal-realtime">Hari, 11 Mei 1998</h2>
+        </div>
+    </div>
+
+    <div id="my-alert"
+        class="hidden items-center p-4 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800"
+        role="alert">
+        <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor" viewBox="0 0 20 20">
+            <path
+                d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+        </svg>
+        <span class="sr-only">Info</span>
+        <div></div>
+    </div>
+
+    <div class="flex flex-row space-x-6">
+        <div class="flex flex-col justify-center items-center rounded-xl w-full bg-red-400 space-y-10">
+            <h2 class="text-white font-extrabold text-4xl">Nomor Antrian</h2>
+            <h2 class="text-white font-extrabold text-9xl" id="nomor-antrian">0</h2>
+        </div>
+
+        <div class="rounded-xl w-full bg-red-700 overflow-hidden">
+            <video autoplay muted loop class="h-full">
+                <source src="./assets/video/video_jkn.mp4" type="video/mp4">
+                Browser tidak mendukung video.
+            </video>
+        </div>
+    </div>
+
+    <script src="./node_modules/odometer/odometer.min.js"></script>
+    <script src="./src/js/renderer.js"></script>
+</body>
+
+</html>

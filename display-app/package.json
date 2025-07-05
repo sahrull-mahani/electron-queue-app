@@ -1,0 +1,53 @@
+{
+  "name": "display-app",
+  "version": "1.0.0",
+  "description": "Aplikasi display antrian",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "tailwind:dev": "npx tailwindcss -i ./src/tailwind/input.css -o ./src/tailwind/output.css --watch",
+    "tailwind:prod": "npx tailwindcss -o ./src/tailwind/output.css --minify",
+    "build": "electron-builder"
+  },
+  "keywords": [],
+  "author": "MSM",
+  "license": "ISC",
+  "dependencies": {
+    "@tailwindcss/cli": "^4.1.11",
+    "odometer": "^0.4.8",
+    "socket.io-client": "^4.7.4",
+    "tailwindcss": "^4.1.11"
+  },
+  "devDependencies": {
+    "electron": "^37.1.0",
+    "electron-builder": "^26.0.12"
+  },
+  "build": {
+    "appId": "com.msm.displayantrian",
+    "productName": "MSM Display Antrian",
+    "asar": true,
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "icon": "assets/img/appicon.ico"
+    },
+    "mac": {
+      "target": [
+        "dmg"
+      ],
+      "icon": "path/to/your/icon.icns"
+    },
+    "linux": {
+      "target": [
+        "deb",
+        "rpm",
+        "AppImage"
+      ],
+      "icon": "assets/img/appicon.ico"
+    }
+  }
+}

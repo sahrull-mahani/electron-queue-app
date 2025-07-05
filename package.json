@@ -1,0 +1,23 @@
+{
+  "name": "queue-app",
+  "version": "1.0.0",
+  "description": "Root project for queue app",
+  "main": "index.js",
+  "scripts": {
+    "start-server": "node server/server.js",
+    "start-control": "cd control-app && npm start",
+    "start-display": "cd display-app && npm start",
+    "control:tailwind:dev": "cd control-app && npm run tailwind:dev",
+    "display:tailwind:dev": "cd display-app && npm run tailwind:dev",
+    "control:tailwind:prod": "cd control-app && npm run tailwind:prod",
+    "display:tailwind:prod": "cd display-app && npm run tailwind:prod"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "electron": "^37.1.0",
+    "socket.io": "^4.8.1"
+  }
+}
