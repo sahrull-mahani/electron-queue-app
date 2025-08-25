@@ -15,10 +15,11 @@
                 <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">RSUD ALOEI
                     SABOE</span>
             </a>
-            <div class="flex items-center space-x-6 rtl:space-x-reverse">
-                <button class="bg-orange-800 text-white py-2 px-4 rounded-lg font-semibold disabled:bg-gray-500 disabled:text-gray-600 disabled:cursor-not-allowed" disabled
-                    id="btn-reset">Reset</button>
-            </div>
+            <!-- <div class="flex items-center space-x-6 rtl:space-x-reverse">
+                <button
+                    class="bg-orange-800 text-white py-2 px-4 rounded-lg font-semibold disabled:bg-gray-500 disabled:text-gray-600 disabled:cursor-not-allowed"
+                    disabled id="btn-reset">Reset</button>
+            </div> -->
         </div>
     </nav>
 
@@ -36,9 +37,7 @@
 
     <div class="flex justify-center">
         <div class="">
-            <!-- <h1 class="text-center text-2xl font-semibold mb-2">Selamat bertugas, <span class="nama-petugas">Nama
-                    Petugas</span></h1> -->
-            <h1 class="text-center text-lg font-semibold mb-10"><span class="nama-loket">Nama Loket</span></h1>
+            <h1 class="text-center text-3xl font-semibold mb-10"><span id="total-antrian">Total Antrian</span></h1>
             <div
                 class="flex flex-col text-center mx-auto w-max bg-gray-200 rounded-xl px-10 py-5 shadow-lg border-t-4 border-t-purple-700 mb-5">
                 <h1 class="text-7xl text-purple-800 font-extrabold font-mono" id="nomor-antrian">0</h1>
@@ -50,7 +49,7 @@
                     disabled>Panggil
                     lagi</button>
                 <button id="btn-next"
-                    class="bg-green-400 border-2 px-8 py-2 rounded-md font-semibold border-b-2 border-b-green-900 text-gray-900 active:bg-green-700 active:text-white hover:text-white transition-all duration-75 ease-in">Berikutnya</button>
+                    class="bg-green-400 border-2 px-8 py-2 rounded-md font-semibold border-b-2 border-b-green-900 text-gray-900 active:bg-green-700 active:text-white hover:text-white transition-all duration-75 ease-in disabled:bg-gray-500 disabled:text-gray-600 disabled:cursor-not-allowed disabled:border-b-0">Berikutnya</button>
                 <button id="btn-skip"
                     class="bg-gray-400 border-2 px-8 py-2 rounded-md font-semibold border-b-2 border-b-gray-900 text-gray-900 active:bg-gray-700 active:text-white hover:text-white transition-all duration-75 ease-in disabled:bg-gray-500 disabled:text-gray-600 disabled:cursor-not-allowed disabled:border-b-0"
                     disabled>Lewati</button>
@@ -62,7 +61,7 @@
         <div class="rounded-xl bg-gray-200 shadow-lg py-8 px-3 border-t-8 border-t-cyan-600">
             <h1 class="font-semibold text-xl">Panggilan Manual</h1>
 
-            <form id="panggilan-manual">
+            <form id="panggilan-manual" class="mb-4">
                 <label for="number" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Nomor</label>
                 <div class="relative">
                     <input type="number" name="nomor" min="1" id="number"
@@ -72,6 +71,8 @@
                         class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2">Panggil</button>
                 </div>
             </form>
+
+            <ul class="space-y-4" id="daftar-antrian"></ul>
 
         </div>
 

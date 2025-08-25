@@ -16,6 +16,11 @@ io.on('connection', async (socket) => {
         io.emit('updateQueue', nomor) // Kirim nomor antrian terbaru ke semua klien yang terhubung
     })
 
+    socket.on('submit-user', async (response) => {
+        console.log(response)
+        io.emit('updateQueueLists', response)
+    })
+
     socket.on('disconnect', () => {
         console.log('User disconnected:', socket.id)
     })

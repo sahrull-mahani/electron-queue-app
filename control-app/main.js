@@ -1,6 +1,6 @@
 const { app, BrowserWindow, ipcMain, Menu } = require('electron')
 const { io } = require('socket.io-client')
-const model = require('../server/model')
+const model = require('./src/model/model')
 
 const socket = io('http://localhost:3000') // Sesuaikan dengan port server Anda
 let mainWindow
@@ -9,8 +9,6 @@ function createWindow() {
     mainWindow = new BrowserWindow({
         width: 800,
         height: 600,
-        maximizable: true,
-        
         focusable: true,
         icon: __dirname + '/assets/img/logo.png',
         webPreferences: {
@@ -19,6 +17,7 @@ function createWindow() {
         },
     })
 
+    // mainWindow.webContents.openDevTools()
     mainWindow.loadFile('index.html')
     // mainWindow.setFullScreen(true)
 
@@ -29,12 +28,20 @@ function createWindow() {
         mainWindow = null
     })
 
+    ipcMain.handle('get-queues', async () => {
+        return await model.getQueues()
+    })
+
     ipcMain.handle('add-queue', async (e, queue) => {
         return await model.addQueue(queue)
     })
 
     ipcMain.handle('get-newest-queue', async () => {
         return await model.getNewestQueue()
+    })
+
+    ipcMain.handle('get-now-queue', async () => {
+        return await model.getNowQueue()
     })
 
     ipcMain.handle('reset-queue', async () => {
@@ -51,6 +58,15 @@ function createWindow() {
 
     ipcMain.handle('clear-skipped', async () => {
         return await model.clearSkipped()
+    })
+
+    socket.on('updateQueueLists', (response) => {
+        if (mainWindow) {
+            console.log(response)
+            if (response.location == 'apotek cmu') {
+                mainWindow.webContents.send('queueUpdateListed', response)
+            }
+        }
     })
 }
 
@@ -71,5 +87,8 @@ app.on('window-all-closed', () => {
 })
 
 ipcMain.on('callNext', (event, nomor) => {
-    socket.emit('nextQueue', nomor)
+    socket.emit('nextQueue', {
+        nomor: nomor,
+        location: 'apotek cmu'
+    })
 })

@@ -22,6 +22,8 @@
   "license": "ISC",
   "dependencies": {
     "@tailwindcss/cli": "^4.1.11",
+    "dotenv": "^17.2.1",
+    "mysql2": "^3.14.3",
     "socket.io-client": "^4.7.4",
     "tailwindcss": "^4.1.11"
   },

@@ -2,11 +2,13 @@ control-app/dist
 control-app/node_modules
 control-app/package-lock.json
 control-app/src/tailwind/output.css
+control-app/.env
 
 display-app/dist
 display-app/node_modules
 display-app/package-lock.json
 display-app/src/tailwind/output.css
+display-app/.env
 
 server/node_modules
 server/database.sqlite

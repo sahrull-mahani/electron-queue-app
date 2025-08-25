@@ -1,38 +1,118 @@
 const { ipcRenderer } = require('electron')
 const queueNumberDisplay = document.getElementById('nomor-antrian')
+const daftarAntrian = document.getElementById('daftar-antrian')
+const namaPasien = document.getElementById('nama-pasien')
+const nomorResep = document.getElementById('nomor-resep')
+const namaPoli = document.getElementById('nama-poli')
+const namaDokter = document.getElementById('nama-dokter')
 
 // Inisialisasi Odometer dengan nilai awal = defaultValue
-const odometer = new Odometer({ 
-  el: queueNumberDisplay, 
-  value: '0',
-  format: '',
+const odometer = new Odometer({
+    el: queueNumberDisplay,
+    value: '0',
+    format: '',
 })
 
 // Render nilai awal
 odometer.render(queueNumberDisplay.textContent)
 
+// Kecepatan gulir (dalam piksel per interval)
+const scrollSpeed = .5
+let scrollPosition = 0
+
+const startAutoScroll = () => {
+    // Jalankan interval setiap 25 milidetik (40 kali per detik)
+    setInterval(() => {
+        // Pindahkan posisi gulir ke bawah
+        scrollPosition += scrollSpeed
+        daftarAntrian.scrollTop = scrollPosition
+
+        // Jika sudah mencapai akhir konten, atur ulang ke atas
+        if (daftarAntrian.scrollTop + daftarAntrian.clientHeight >= daftarAntrian.scrollHeight) {
+            scrollPosition = 0 // Atur ulang posisi
+        }
+    }, 25)
+}
+
+// Jalankan fungsi auto-scroll saat halaman dimuat
+window.addEventListener('load', () => {
+    startAutoScroll()
+    getNowQueue()
+    getQueues()
+})
+
 ipcRenderer.on('queueUpdated', (event, number) => {
     queueNumberDisplay.textContent = number
-    if (number) callAudio(number)
-    
+    if (number) {
+        callAudio(number)
+        getNowQueue()
+        getQueues()
+    }
+
     // Update ke nilai baru (pastikan nilai lebih besar dari sebelumnya)
     setTimeout(() => {
-      odometer.update(number)
+        odometer.update(number)
     }, 1000)
 })
 
-const getNewestQueue = async () => {
+ipcRenderer.on('queueUpdateListed', async (event, response) => {
+    console.log('SOcket queueUpdateListed')
+    console.log(response)
+    getQueues(response)
+})
+
+const getNowQueue = async () => {
     try {
-        const queue = await ipcRenderer.invoke('get-newest-queue')
-        console.log(queue)
-        const number = queue?.no_antrian ?? 0
-        console.log('newst', number)
+        const video = document.getElementById('video')
+        const queue = await ipcRenderer.invoke('get-now-queue')
+        const number = queue.nomor
         queueNumberDisplay.textContent = number
+        if (number) {
+            video.style.display = 'none'
+            video.nextElementSibling.style.display = 'flex'
+            namaPasien.textContent = queue.nm_pasien
+            nomorResep.textContent = queue.no_resep
+            namaPoli.textContent = queue.nm_poli
+            namaDokter.textContent = queue.nm_dokter
+        } else {
+            video.style.display = 'block'
+            video.nextElementSibling.style.display = 'none'
+        }
     } catch (error) {
-        console.error('Get antrian terbaru:', error)
+        console.error('Get antrian sekarang:', error)
     }
 }
-getNewestQueue()
+
+const getQueues = async (newQueue = null) => {
+    const queues = await ipcRenderer.invoke('get-queues')
+    if (newQueue) {
+        queues.push(newQueue)
+    }
+
+    daftarAntrian.innerHTML = ''
+    if (!queues.length) {
+        daftarAntrian.innerHTML = `<h1 class="text-lg font-semibold text-center text-red-800 bg-gray-100 italic font-mono mt-4 tracking-wider">Belum ada antrian</h1>`
+    } else {
+        let dataAntrian = ''
+        queues.map((antrian) => {
+            dataAntrian += `<tr>
+                        <td class="px-5 py-5 border-b border-gray-200 bg-white">
+                            <h2 class="font-bold text-2xl">${antrian.nm_pasien}</h2>
+                        </td>
+                        <td class="px-5 py-5 border-b border-gray-200 bg-white">
+                            <h2 class="font-bold text-2xl">${antrian.nm_poli}</h2>
+                        </td>
+                        <td class="px-5 py-5 border-b border-gray-200 bg-white">
+                            <h2 class="font-bold text-2xl">${antrian.nm_dokter}</h2>
+                        </td>
+                        <td class="px-5 py-5 border-b border-gray-200 bg-white">
+                            <h2 class="font-bold text-2xl py-2 px-3 bg-green-400 text-green-950 rounded-2xl text-center">${antrian.nomor}</h2>
+                        </td>
+                    </tr>`
+        })
+        daftarAntrian.innerHTML = dataAntrian
+    }
+}
 
 const updateWaktu = () => {
     const sekarang = new Date()
