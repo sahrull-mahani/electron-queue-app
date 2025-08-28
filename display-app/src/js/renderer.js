@@ -5,6 +5,7 @@ const namaPasien = document.getElementById('nama-pasien')
 const nomorResep = document.getElementById('nomor-resep')
 const namaPoli = document.getElementById('nama-poli')
 const namaDokter = document.getElementById('nama-dokter')
+const animasiSkrol = document.querySelector('.animasi_skrol')
 
 // Inisialisasi Odometer dengan nilai awal = defaultValue
 const odometer = new Odometer({
@@ -19,17 +20,22 @@ odometer.render(queueNumberDisplay.textContent)
 // Kecepatan gulir (dalam piksel per interval)
 const scrollSpeed = .5
 let scrollPosition = 0
+let scrollDirection = 1 // 1 untuk ke bawah, -1 untuk ke atas
 
 const startAutoScroll = () => {
     // Jalankan interval setiap 25 milidetik (40 kali per detik)
     setInterval(() => {
-        // Pindahkan posisi gulir ke bawah
-        scrollPosition += scrollSpeed
-        daftarAntrian.scrollTop = scrollPosition
+        // Pindahkan posisi gulir sesuai arah
+        scrollPosition += scrollSpeed * scrollDirection
+        animasiSkrol.scrollTop = scrollPosition
 
-        // Jika sudah mencapai akhir konten, atur ulang ke atas
-        if (daftarAntrian.scrollTop + daftarAntrian.clientHeight >= daftarAntrian.scrollHeight) {
-            scrollPosition = 0 // Atur ulang posisi
+        // Cek jika sudah mencapai akhir konten (bawah)
+        if (animasiSkrol.scrollTop + animasiSkrol.clientHeight >= animasiSkrol.scrollHeight) {
+            scrollDirection = -1 // Ubah arah menjadi ke atas
+        }
+        // Cek jika sudah mencapai awal konten (atas)
+        else if (animasiSkrol.scrollTop <= 0) {
+            scrollDirection = 1 // Ubah arah menjadi ke bawah
         }
     }, 25)
 }
@@ -41,23 +47,44 @@ window.addEventListener('load', () => {
     getQueues()
 })
 
-ipcRenderer.on('queueUpdated', (event, number) => {
-    queueNumberDisplay.textContent = number
-    if (number) {
-        callAudio(number)
-        getNowQueue()
+ipcRenderer.on('queueUpdated', async (event, response) => {
+    const { total } = await ipcRenderer.invoke('get-total-queues')
+    const { total_selesai } = await ipcRenderer.invoke('get-total-done-queues')
+    const { nomor, nm_pasien, no_resep, nm_poli, nm_dokter, action } = response
+
+    queueNumberDisplay.textContent = nomor
+
+    console.log(response)
+
+    if (total == total_selesai || action == 'done') {
+        queueNumberDisplay.textContent = 0
+        video.style.display = 'block'
+        video.nextElementSibling.style.display = 'none'
+        daftarAntrian.innerHTML = `<h1 class="text-lg font-semibold text-center text-red-800 bg-gray-100 italic font-mono mt-4 tracking-wider">Belum ada antrian</h1>`
+    }
+
+    if (nomor) {
+        if (action == 'panggil-antrian-dilewati') {
+            video.style.display = 'none'
+            video.nextElementSibling.style.display = 'flex'
+            namaPasien.textContent = nm_pasien
+            nomorResep.textContent = no_resep
+            namaPoli.textContent = nm_poli
+            namaDokter.textContent = nm_dokter
+        } else {
+            getNowQueue()
+        }
+        callAudio(nomor)
         getQueues()
     }
 
     // Update ke nilai baru (pastikan nilai lebih besar dari sebelumnya)
     setTimeout(() => {
-        odometer.update(number)
+        odometer.update(nomor)
     }, 1000)
 })
 
 ipcRenderer.on('queueUpdateListed', async (event, response) => {
-    console.log('SOcket queueUpdateListed')
-    console.log(response)
     getQueues(response)
 })
 
@@ -65,7 +92,7 @@ const getNowQueue = async () => {
     try {
         const video = document.getElementById('video')
         const queue = await ipcRenderer.invoke('get-now-queue')
-        const number = queue.nomor
+        const number = queue ? (queue.nomor > 1 ? queue.nomor : 0) : 0
         queueNumberDisplay.textContent = number
         if (number) {
             video.style.display = 'none'

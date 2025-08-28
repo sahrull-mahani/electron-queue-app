@@ -16,6 +16,7 @@ module.exports = {
             INNER JOIN dokter d ON d.kd_dokter = ro.kd_dokter
             INNER JOIN pasien p ON p.no_rkm_medis = rp.no_rkm_medis
             WHERE ro.tgl_peresepan = CURDATE() AND ap.tanggal = CURDATE() AND ap.status = 'Baru'
+            ORDER BY ap.nomor ASC
         `
             const [rows] = await db.query(sqlQuery)
             return rows
@@ -69,6 +70,36 @@ module.exports = {
             return queue
         } catch (error) {
             console.error('Error fetching queues:', error)
+            throw error
+        }
+    },
+
+    getTotalQueues: async () => {
+        try {
+            const [rows] = await db.query("SELECT COUNT(*) AS total FROM antrian_apotek WHERE tanggal = CURDATE()")
+            const total = rows[0] || null
+
+            if (!total) {
+                return { nomor: 0 }
+            }
+            return total
+        } catch (error) {
+            console.error('Error fetching skipped queues:', error)
+            throw error
+        }
+    },
+
+    getTotalDoneQueues: async () => {
+        try {
+            const [rows] = await db.query("SELECT COUNT(*) AS total_selesai FROM antrian_apotek WHERE tanggal = CURDATE() AND status = ?", ['Selesai'])
+            const total = rows[0] || null
+
+            if (!total) {
+                return { nomor: 0 }
+            }
+            return total
+        } catch (error) {
+            console.error('Error fetching skipped queues:', error)
             throw error
         }
     },

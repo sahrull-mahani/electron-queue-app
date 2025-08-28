@@ -2,7 +2,7 @@ const { app, BrowserWindow, ipcMain, Menu } = require('electron')
 const { io } = require('socket.io-client')
 const model = require('./src/model/model')
 
-const socket = io('http://localhost:3000') // Sesuaikan dengan port server Anda
+const socket = io(process.env.WS) // Sesuaikan dengan port server Anda
 let mainWindow
 
 function createWindow() {
@@ -17,9 +17,9 @@ function createWindow() {
         },
     })
 
-    // mainWindow.webContents.openDevTools()
+    mainWindow.webContents.openDevTools()
+    mainWindow.setFullScreen(true)
     mainWindow.loadFile('index.html')
-    // mainWindow.setFullScreen(true)
 
     // Menghapus menu bar sepenuhnya
     Menu.setApplicationMenu(null)
@@ -42,6 +42,14 @@ function createWindow() {
 
     ipcMain.handle('get-now-queue', async () => {
         return await model.getNowQueue()
+    })
+
+    ipcMain.handle('get-total-queues', async () => {
+        return await model.getTotalQueues()
+    })
+
+    ipcMain.handle('get-total-done-queues', async () => {
+        return await model.getTotalDoneQueues()
     })
 
     ipcMain.handle('reset-queue', async () => {
@@ -86,9 +94,18 @@ app.on('window-all-closed', () => {
     }
 })
 
-ipcMain.on('callNext', (event, nomor) => {
-    socket.emit('nextQueue', {
-        nomor: nomor,
+ipcMain.on('callNext', (event, request) => {
+    const { nomor, nm_pasien, no_resep, nm_poli, nm_dokter, action } = request
+    let data = {
+        nomor,
         location: 'apotek cmu'
-    })
+    }
+    if (action && action == 'panggil-antrian-dilewati') {
+        data.nm_pasien = nm_pasien
+        data.no_resep = no_resep
+        data.nm_poli = nm_poli
+        data.nm_dokter = nm_dokter
+        data.action = action
+    }
+    socket.emit('nextQueue', data)
 })

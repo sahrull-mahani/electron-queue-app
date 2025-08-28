@@ -12,8 +12,8 @@ const io = new Server(httpServer, {
 io.on('connection', async (socket) => {
     console.log('User connected:', socket.id)
 
-    socket.on('nextQueue', async (nomor) => {
-        io.emit('updateQueue', nomor) // Kirim nomor antrian terbaru ke semua klien yang terhubung
+    socket.on('nextQueue', async (response) => {
+        io.emit('updateQueue', response)
     })
 
     socket.on('submit-user', async (response) => {

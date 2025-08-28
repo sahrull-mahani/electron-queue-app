@@ -2,7 +2,7 @@ const { app, BrowserWindow, ipcMain } = require('electron')
 const { io } = require('socket.io-client')
 const model = require('./src/model/model')
 
-const socket = io('http://localhost:3000') // Sesuaikan dengan port server Anda
+const socket = io(process.env.WS) // Sesuaikan dengan port server Anda
 let mainWindow
 
 function createWindow() {
@@ -30,7 +30,7 @@ function createWindow() {
     socket.on('updateQueue', (response) => {
         if (mainWindow) {
             if (response.location == 'apotek cmu') {
-                mainWindow.webContents.send('queueUpdated', response.nomor)
+                mainWindow.webContents.send('queueUpdated', response)
             }
         }
     })
@@ -54,6 +54,14 @@ function createWindow() {
 
     ipcMain.handle('get-now-queue', async () => {
         return await model.getNowQueue()
+    })
+
+    ipcMain.handle('get-total-queues', async () => {
+        return await model.getTotalQueues()
+    })
+
+    ipcMain.handle('get-total-done-queues', async () => {
+        return await model.getTotalDoneQueues()
     })
 }
 

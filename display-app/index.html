@@ -10,10 +10,10 @@
     <link rel="stylesheet" href="./src/css/animate.min.css">
 </head>
 
-<body class="bg-gradient-to-b from-purple-700 to-purple-800 h-screen pt-10 px-20 select-none">
+<body class="bg-gradient-to-b from-purple-700 to-purple-800 h-screen pt-3 px-20 select-none overflow-hidden">
 
     <div
-        class="flex justify-between rounded-xl bg-gradient-to-l from-purple-500 via-purple-600 to-purple-700 w-full shadow-md px-3 py-5 mb-8">
+        class="flex justify-between rounded-xl bg-gradient-to-l from-purple-500 via-purple-600 to-purple-700 w-full shadow-md px-3 py-5 mb-3">
         <div class="flex flex-row space-x-5">
             <img src="./assets/img/logo.png" alt="Logo RSUD" class="size-28">
             <div>
@@ -42,7 +42,7 @@
     </div>
 
     <div class="flex flex-row space-x-6">
-        <div class="flex flex-col justify-center items-center rounded-xl w-full bg-red-400 space-y-10">
+        <div class="flex flex-col justify-center items-center rounded-xl w-full bg-red-400 space-y-8">
             <h2 class="text-white font-extrabold text-4xl">Nomor Antrian</h2>
             <h2 class="text-white font-extrabold text-9xl" id="nomor-antrian">0</h2>
         </div>
@@ -52,88 +52,18 @@
                 <source src="./assets/video/video_jkn.mp4" type="video/mp4">
                 Browser tidak mendukung video.
             </video>
-            <div class="flex flex-col justify-center items-center rounded-xl w-full h-full bg-red-400 space-y-3" style="display: none;">
-                <h2 class="text-white font-extrabold text-6xl" id="nama-pasien">Nama Pasien</h2>
-                <h2 class="text-white font-extrabold text-4xl" id="nomor-resep">Nomor Resep</h2>
-                <h2 class="text-white font-extrabold text-4xl" id="nama-poli">Poli</h2>
-                <h2 class="text-white font-extrabold text-4xl font-mono" id="nama-dokter">Nama Dokter</h2>
+            <div class="flex flex-col justify-center items-center text-center rounded-xl w-full h-full bg-red-400 space-y-3" style="display: none;">
+                <h2 class="text-white font-extrabold text-3xl" id="nama-pasien">Nama Pasien</h2>
+                <h2 class="text-white font-extrabold text-2xl" id="nomor-resep">Nomor Resep</h2>
+                <h2 class="text-white font-extrabold text-2xl" id="nama-poli">Poli</h2>
+                <h2 class="text-white font-extrabold text-2xl font-mono" id="nama-dokter">Nama Dokter</h2>
             </div>
         </div>
     </div>
 
-    <div class="inline-block w-full max-h-72 shadow-md mt-3 overflow-y-scroll">
+    <div class="inline-block w-full max-h-60 shadow-md mt-3 overflow-auto rounded-2xl animasi_skrol">
         <table class="min-w-full leading-normal">
             <tbody id="daftar-antrian">
-                <tr>
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white">
-                        <h2 class="font-bold text-2xl">Nama Pasien</h2>
-                    </td>
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white">
-                        <h2 class="font-bold text-2xl">Nama Poli</h2>
-                    </td>
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white">
-                        <h2 class="font-bold text-2xl">Nama Dokter</h2>
-                    </td>
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white">
-                        <h2 class="font-bold text-2xl py-2 px-3 bg-green-400 text-green-950 rounded-2xl text-center">Nomor</h2>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white">
-                        <h2 class="font-bold text-2xl">Nama Pasien</h2>
-                    </td>
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white">
-                        <h2 class="font-bold text-2xl">Nama Poli</h2>
-                    </td>
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white">
-                        <h2 class="font-bold text-2xl">Nama Dokter</h2>
-                    </td>
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white">
-                        <h2 class="font-bold text-2xl py-2 px-3 bg-green-400 text-green-950 rounded-2xl text-center">Nomor</h2>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white">
-                        <h2 class="font-bold text-2xl">Nama Pasien</h2>
-                    </td>
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white">
-                        <h2 class="font-bold text-2xl">Nama Poli</h2>
-                    </td>
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white">
-                        <h2 class="font-bold text-2xl">Nama Dokter</h2>
-                    </td>
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white">
-                        <h2 class="font-bold text-2xl py-2 px-3 bg-green-400 text-green-950 rounded-2xl text-center">Nomor</h2>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white">
-                        <h2 class="font-bold text-2xl">Nama Pasien</h2>
-                    </td>
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white">
-                        <h2 class="font-bold text-2xl">Nama Poli</h2>
-                    </td>
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white">
-                        <h2 class="font-bold text-2xl">Nama Dokter</h2>
-                    </td>
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white">
-                        <h2 class="font-bold text-2xl py-2 px-3 bg-green-400 text-green-950 rounded-2xl text-center">Nomor</h2>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white">
-                        <h2 class="font-bold text-2xl">Nama Pasien</h2>
-                    </td>
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white">
-                        <h2 class="font-bold text-2xl">Nama Poli</h2>
-                    </td>
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white">
-                        <h2 class="font-bold text-2xl">Nama Dokter</h2>
-                    </td>
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white">
-                        <h2 class="font-bold text-2xl py-2 px-3 bg-green-400 text-green-950 rounded-2xl text-center">Nomor</h2>
-                    </td>
-                </tr>
                 <tr>
                     <td class="px-5 py-5 border-b border-gray-200 bg-white">
                         <h2 class="font-bold text-2xl">Nama Pasien</h2>
